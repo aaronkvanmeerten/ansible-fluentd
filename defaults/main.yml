@@ -1,12 +1,15 @@
 # fluentd fqdn used by forwarders to fluentd
 fluentd_server_fqdn: fluentd-server
 
+fluentd_cloudwatch_log_group_name: fluentd-logs
+fluentd_cloudwatch_log_stream_name: "{{ansible_hostname}}"
+
 # Address of elasticsearch used by fluentd
 es_fqdn: localhost
 es_port: 9200
 
 # If this machine should forward to Elasticsearch
-forward_to_es: False
+forward_to_cw: False
 
 # Syslog plugin
 fluentd_plugin_syslog_ip: 127.0.0.1

@@ -3,17 +3,10 @@
 
 # ElasticSearch plugin
 - name: install fluentd plugins
-  apt: name={{ item }} state=present force=yes
-  tags: fluentd
-  with_items:
-    - build-essential
-    - ruby-dev
-    - libcurl4-gnutls-dev
-    - make
-  notify: compiling and installing elasticsearch plugin dependencies
-  when: forward_to_es is defined or forward_to_es
+  shell: /opt/td-agent/embedded/bin/fluent-gem install fluent-plugin-cloudwatch-logs
+  when: forward_to_cw is defined or forward_to_cw
 
-- template: src=forward_es.conf.j2 dest=/etc/td-agent/config.d/forward_es.conf owner=root group=root mode=644
+- template: src=forward_cw.conf.j2 dest=/etc/td-agent/config.d/forward_cw.conf owner=root group=root mode=644
   notify: restart fluentd
 
 # Set receiver

@@ -12,8 +12,3 @@
 - lineinfile: dest=/etc/rsyslog.conf line="*.*          @127.0.0.1:5140"
   when: fluentd_syslog|success
   notify: restart rsyslog
-
-# Nginx
-- copy: src=nginx.conf dest=/etc/td-agent/config.d/nginx.conf owner=root group=root mode=644
-  notify: restart fluentd
-
