@@ -5,6 +5,3 @@
 
 - name: restart fluentd
   service: name=td-agent state=restarted
-
-- name: restart rsyslog
-  service: name=rsyslog state=restarted

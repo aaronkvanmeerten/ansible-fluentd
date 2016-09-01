@@ -1,8 +1,10 @@
 # fluentd fqdn used by forwarders to fluentd
-fluentd_server_fqdn: fluentd-server
+fluentd_server_fqdn: localhost
 
 fluentd_cloudwatch_log_group_name: fluentd-logs
 fluentd_cloudwatch_log_stream_name: "{{ansible_hostname}}"
+
+fluentd_forward_messages: false
 
 # Address of elasticsearch used by fluentd
 es_fqdn: localhost
