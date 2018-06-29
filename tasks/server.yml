@@ -3,7 +3,7 @@
 
 # ElasticSearch plugin
 - name: install fluentd plugins
-  shell: /opt/td-agent/embedded/bin/fluent-gem install fluent-plugin-cloudwatch-logs
+  shell: td-agent-gem install fluent-plugin-cloudwatch-logs
   when: forward_to_cw is defined or forward_to_cw
 
 - template: src=forward_cw.conf.j2 dest=/etc/td-agent/config.d/forward_cw.conf owner=root group=root mode=644
