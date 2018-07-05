@@ -2,14 +2,22 @@
 
 # Fluentd server
 
+- name: Check that /proc/sys/net/ipv4/tcp_tw_recycle exists
+  stat: path=/proc/sys/net/ipv4/tcp_tw_recycle
+  register: stat_tcp_tw_recycle_result
+
 # set sysctl
 - name: sysctl tuning
   sysctl: name={{ item.name }} value="{{ item.value }}" state=present
   tags: fluentd
   with_items:
-    - { name: net.ipv4.tcp_tw_recycle, value: 1 }
     - { name: net.ipv4.tcp_tw_reuse, value: 1 }
     - { name: net.ipv4.ip_local_port_range, value: '10240 65535' }
+
+- name: sysctl net.ipv4.tcp_tw_recycle tuning
+  sysctl: name=net.ipv4.tcp_tw_recycle value="1" state=present
+  tags: fluentd
+  when: stat_tcp_tw_recycle_result.stat.exists
 
 # set limits.conf
 - name: limits.conf tuning
