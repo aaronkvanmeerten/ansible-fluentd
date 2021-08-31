@@ -12,5 +12,5 @@
   notify: restart fluentd
 
 - lineinfile: dest=/etc/rsyslog.conf line="*.*          @127.0.0.1:5140"
-  when: fluentd_syslog|success
+  when: fluentd_syslog is succeeded
   notify: restart rsyslog
