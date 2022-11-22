@@ -39,9 +39,9 @@
   notify: restart fluentd
 
 # Install server plugins
-- include: server.yml
+- include_tasks: server.yml
   when: forward_to_cw is defined and forward_to_cw
 
 # Install client plugins
-- include: client.yml
+- include_tasks: client.yml
   when: fluentd_server_fqdn is defined
