@@ -1,7 +1,14 @@
 ---
 
-- name: compiling and installing elasticsearch plugin dependencies
-  command: td-agent-gem install fluent-plugin-elasticsearch
+- name: Compiling and installing elasticsearch plugin dependencies # noqa no-changed when
+  ansible.builtin.command: td-agent-gem install fluent-plugin-elasticsearch
 
-- name: restart fluentd
-  service: name=td-agent state=restarted
+- name: Restart fluentd
+  ansible.builtin.service:
+    name: td-agent
+    state: restarted
+
+- name: Restart rsyslog
+  ansible.builtin.service:
+    name: rsyslog
+    state: restarted

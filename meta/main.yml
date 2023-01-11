@@ -1,18 +1,15 @@
 ---
 galaxy_info:
   author: "Pierre Mavro"
-  company: 
+  description: fluentd role
   license: GPL
-  min_ansible_version: 1.4
+  min_ansible_version: '1.4'
   platforms:
-   - name: Debian
-     versions:
-      - wheezy
-  categories:
-   - web
-   - system
-   - database
-   - database:nosql
-   - database:sql
+    - name: Debian
+      versions:
+        - wheezy
+  galaxy_tags:
+    - web
+    - system
+    - database
 dependencies: []
-

@@ -1,18 +1,22 @@
 ---
 
 # Fluentd server
-
 # set sysctl
-- name: sysctl tuning
-  sysctl: name={{ item.name }} value="{{ item.value }}" state=present
+- name: Apply sysctl tuning
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
   tags: fluentd
   with_items:
     - { name: net.ipv4.tcp_tw_reuse, value: 1 }
     - { name: net.ipv4.ip_local_port_range, value: '10240 65535' }
 
 # set limits.conf
-- name: limits.conf tuning
-  lineinfile: dest=/etc/security/limits.conf line="{{ item }}"
+- name: Apply limits.conf tuning
+  ansible.builtin.lineinfile:
+    dest: /etc/security/limits.conf
+    line: "{{ item }}"
   tags: fluentd
   with_items:
     - 'root soft nofile 65536'
@@ -21,27 +25,49 @@
     - '* hard nofile 65536'
 
 # install apt key
-- apt_key: url=http://packages.treasuredata.com/GPG-KEY-td-agent state=present
+- name: Fluentd apt key
+  ansible.builtin.apt_key:
+    url: http://packages.treasuredata.com/GPG-KEY-td-agent
+    state: present
 
 # set dedicated repository
-- apt_repository: repo='deb https://packages.treasuredata.com/4/{{ ansible_distribution|lower }}/{{ ansible_distribution_release|lower }}/ {{ ansible_distribution_release|lower }} contrib' state=present
+- name: Fluentd apt repo
+  ansible.builtin.apt_repository:
+    repo: 'deb https://packages.treasuredata.com/4/{{ ansible_distribution | lower }}/{{ ansible_distribution_release | lower }}/ {{ ansible_distribution_release | lower }} contrib' # noqa yaml[line-length]
+    state: present
 
 # install fluentd
-- name: install fluentd
-  apt: name={{ item }} state=present force=yes
+- name: Install fluentd
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    force: true
   tags: fluentd
   with_items:
     - td-agent
 
 # fluentd configuration
-- file: path=/etc/td-agent/config.d state=directory
-- copy: src=td-agent.conf dest=/etc/td-agent/td-agent.conf owner=root group=root mode=644
+- name: Fluentd config directory
+  ansible.builtin.file:
+    mode: 0755
+    path: /etc/td-agent/config.d
+    state: directory
+
+- name: Fluentd config
+  ansible.builtin.copy:
+    src: td-agent.conf
+    dest: /etc/td-agent/td-agent.conf
+    owner: root
+    group: root
+    mode: 0644
   notify: restart fluentd
 
 # Install server plugins
-- include_tasks: server.yml
+- name: Include server tasks
+  ansible.builtin.include_tasks: server.yml
   when: forward_to_cw is defined and forward_to_cw
 
 # Install client plugins
-- include_tasks: client.yml
+- name: Include client tasks
+  ansible.builtin.include_tasks: client.yml
   when: fluentd_server_fqdn is defined

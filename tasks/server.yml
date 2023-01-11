@@ -2,13 +2,25 @@
 ## Server
 
 # ElasticSearch plugin
-- name: install fluentd plugins
-  shell: td-agent-gem install fluent-plugin-cloudwatch-logs
+- name: Install fluentd plugins # noqa no-changed when
+  ansible.builtin.command: td-agent-gem install fluent-plugin-cloudwatch-logs
   when: forward_to_cw is defined or forward_to_cw
 
-- template: src=forward_cw.conf.j2 dest=/etc/td-agent/config.d/forward_cw.conf owner=root group=root mode=644
+- name: Configure cloudwatch forwarding
+  ansible.builtin.template:
+    src: forward_cw.conf.j2
+    dest: /etc/td-agent/config.d/forward_cw.conf
+    owner: root
+    group: root
+    mode: 0644
   notify: restart fluentd
 
 # Set receiver
-- copy: src=receiver.conf dest=/etc/td-agent/config.d/receiver.conf owner=root group=root mode=644
+- name: Configure fluentd receiver
+  ansible.builtin.copy:
+    src: receiver.conf
+    dest: /etc/td-agent/config.d/receiver.conf
+    owner: root
+    group: root
+    mode: 0644
   notify: restart fluentd
