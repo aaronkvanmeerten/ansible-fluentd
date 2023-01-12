@@ -13,7 +13,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart fluentd
+  notify: Restart fluentd
 
 # Set receiver
 - name: Configure fluentd receiver
@@ -23,4 +23,4 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart fluentd
+  notify: Restart fluentd

@@ -60,7 +60,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart fluentd
+  notify: Restart fluentd
 
 # Install server plugins
 - name: Include server tasks
