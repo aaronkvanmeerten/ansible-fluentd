@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
 <match tag>
   type cloudwatch_logs
-  log_group_name {{fluentd_cloudwatch_log_group_name}}
-  log_stream_name {{fluentd_cloudwatch_log_stream_name}}
+  log_group_name {{ fluentd_cloudwatch_log_group_name }}
+  log_stream_name {{ fluentd_cloudwatch_log_stream_name }}
   auto_create_stream true
   #use_log_stream_name_prefix true
   #message_keys key1,key2,key3,...
