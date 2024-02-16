@@ -27,4 +27,4 @@
     dest: /etc/rsyslog.conf
     line: "*.*          @127.0.0.1:5140"
   when: fluentd_syslog is succeeded
-  notify: Restart rsyslog
+  notify: Restart rsyslog for fluentd

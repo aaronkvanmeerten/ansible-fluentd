@@ -8,7 +8,7 @@
     name: td-agent
     state: restarted
 
-- name: Restart rsyslog
+- name: Restart rsyslog for fluentd
   ansible.builtin.service:
     name: rsyslog
     state: restarted
