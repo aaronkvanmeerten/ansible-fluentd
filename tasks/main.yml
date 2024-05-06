@@ -10,7 +10,7 @@
   tags: fluentd
   with_items:
     - { name: net.ipv4.tcp_tw_reuse, value: 1 }
-    - { name: net.ipv4.ip_local_port_range, value: '10240 65535' }
+    - { name: net.ipv4.ip_local_port_range, value: '32768 65535' }
 
 # set limits.conf
 - name: Apply limits.conf tuning
